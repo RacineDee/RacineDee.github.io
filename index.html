@@ -259,6 +259,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/10/用chm和powershell制作后门木马/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rac1ne">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rac1ne">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/10/用chm和powershell制作后门木马/" itemprop="url">利用chm和powershell制作后门木马</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T10:37:11+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###1    CHM简介</p>
+<pre><code>**CHM（Compiled Help Manual）**即“**已编译的帮助文件**”。它是微软新一代的帮助文件格式，利用HTML作源文，把帮助内容以类似数据库的形式编译储存。CHM支持Javascript、VBscript、ActiveX、Java Applet、Flash、常见图形文件(GIF、JPEG、PNG)、音频视频文件(MID、WAV、AVI)等等，并可以通过URL与Internet联系在一起。因为使用方便，形式多样也被采用作为电子书的格式。
+</code></pre><p>###2    CHM制作<br>CHM的制作方法很多。有多款工具可以使用，这里就不在做详细的介绍了。本次测试使用了EasyCHM来制作CHM文件，使用起来非常简单。<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm1.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm1.png</a>)</p>
+<center>图1 CHM制作软件</center><br>###3    在CHM中写入命令执行代码<br>我们在网上寻找到了一段可以进行CHM命令执行的代码，将其编辑写入html文件，并编译成CHM文件，当打开CHM文件时，计算机会执行命令打开计算机。利用代码及效果如图所示：<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm2.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm2.png</a>)<br><center>图2 利用代码详情</center><br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm3.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm3.png</a>)<br><center>图3 打开CHM文件会自动打开计算机</center><br>###4    结合CHM + JSRat<br>####4.1     JSRat简介<br>    JSRat是一个由Python编写的脚本，它可以实现对远程PC的shell管理利用JSBackdoor生成攻击代码，当在靶机上执行目标代码时会与JSBackdoor产生通信连接，从而生成一个木马后门对目标靶机进行监听等操作。<br>####4.2     攻击过程<br> 我们使用交互模式的JSRat Server<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm4.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm4.png</a>)<br><center>图4 交互模式的JSRat</center>
+
+<p>访问 <a href="http://10.10.10.128:8080/wtf" target="_blank" rel="noopener">http://10.10.10.128:8080/wtf</a> 获取攻击代码如下：<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm5.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm5.png</a>) </p>
+<center>图5 攻击代码</center>
+
+<p>将攻击代码写入html文件：<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm6.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm6.png</a>) </p>
+<center>图6 写入攻击代码的html文件</center>
+
+<p>编译生成CHM文件：<br>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm7.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm7.png</a>) </p>
+<center>图7 CHM文件生成</center><br><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm8.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm8.png</a>) </center><br><center>图8 生成后的CHM文件</center>
+
+<p>在目标靶机上打开CHM文件，JSRat服务器监听到链接：</p>
+<center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm9.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm9.png</a>) </center><br><center>图9 与目标靶机建立会话</center>
+
+<p>对目标靶机进行一些基础操作：</p>
+<center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm10.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm10.png</a>) </center><br><center>图10 在目标靶机上运行命令控制台</center><br><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm11.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm11.png</a>) </center><br><center>图11 查看目标靶机系统信息</center><br>###5    获取meterpreter会话<br><br>在JSRat运行过程中，我们发现如下问题：<br>当在JSRat服务器运行控制台命令时，在目标靶机上会有明显的弹窗，故我们对攻击方式进行改进，利用Meterpreter进行TCP链接的监听：<br>此次测试获取meterpreter会话的方式是通过执行powershell命令，直接获取，当获取客户端JS 交互shell之后自动执行powershell命令，获取meterpreter会话。具体操作如下：<br>打开armitage终端并进行配置<br><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm12.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm12.png</a>) </center><br><center>图12 参数设置</center><br>生成powershell命令<br><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm13.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm13.png</a>) </center><br><center>图13 生成命令</center>
+
+<p>由于存在特殊字符，我们可以把以上代码编码为base64格式，将以下代码存入power.txt</p>
+<center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm14.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm14.png</a>) </center><br><center>图14 power.txt文件</center>
+
+<p>使用命令将其转换为base64编码</p>
+<center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm15.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm15.png</a>) </center><br><center>图15 转换成base64编码</center>
+
+<p>如图6.15所示，以上代码即为我们最终要在目标靶机上运行的powershell代码。</p>
+<p>使用执行命令模式直接获取meterpreter会话</p>
+<center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm16.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm16.png</a>) </center><br><center>图16 执行JSRat</center><br><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm17.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm17.png</a>) </center><br><center>图17 开启服务器交互模式</center>
+
+<p>当在目标主机打开处理过的CHM文件后，JSRat终端会在目标主机上执行base64编码的powershell编码命令，执行命令之后目标靶机将回传一个会话给msf控制台，控制台监听会话消息，并与目标靶机建立连接，从而获取目标靶机的控制权。</p>
+<p><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm18.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm18.png</a>) </center></p>
+<p><center>图18 控制成功</center></p>
+<p>###6    利用场景</p>
+<p>我们用一张图来说明此攻击方式的利用场景：</p>
+<p><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm19.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm19.png</a>) </center></p>
+<p><center>图19 利用场景</center></p>
+<p>###7    防御措施<br>对于这类文件，多注意一下，尽量别乱点，如果非要点，可以放到虚拟机里面。使用procexp.exe可以看到存在后门的chm文件会开启新的进程：</p>
+<p><center>![] (<a href="http://p6kdaquz0.bkt.clouddn.com/chm/chm20.png" target="_blank" rel="noopener">http://p6kdaquz0.bkt.clouddn.com/chm/chm20.png</a>) </center></p>
+<p><center>图20 进程查看器</center><br>对于碰到这种后门，可以将 chm反编译为html查看其代码是否包含恶意代码。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/01/Hello/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -563,6 +722,691 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/27/anheng1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rac1ne">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rac1ne">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/27/anheng1/" itemprop="url">安恒一月月赛复现账号题目学习笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T18:47:21+08:00">
+                2018-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于比赛当天出去浪了，事后集赞求了个复现账号学习。题目质量是真的没的说</p>
+<h1 id="0x00-MISC-喵喵喵"><a href="#0x00-MISC-喵喵喵" class="headerlink" title="0x00 MISC-喵喵喵"></a>0x00 MISC-喵喵喵</h1><h3 id="题目说明"><a href="#题目说明" class="headerlink" title="题目说明"></a>题目说明</h3><p>喵喵喵，扫一扫</p>
+<p><a href="http://www.racinedee.com/wp-content/uploads/2018/01/mmm.zip" target="_blank" rel="noopener">文件下载链接</a></p>
+<p>下载压缩包，打开发现一张图片，解压之</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao1-1.png" alt=""></p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao2-300x297.png" alt=""></p>
+<p>用binwalk，010editor打开查找信息无果，放进神器stegosolve中</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao3.png" alt=""></p>
+<p>在RGB三原色的plane0都发现了如上图所示异常，直接提取</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao4.png" alt=""></p>
+<p>提取出来发现图片打不开，用010editor打开发现在文件头中多了几位，将其删除：</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao5.png" alt=""></p>
+<p>删除后打开图片，发现是半张二维码</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao6.png" alt=""></p>
+<p>使用010editor更改高度，显示出完整二维码</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao7-300x280.png" alt=""></p>
+<p>扫描二维码发现一个网盘地址，访问后下载得到一个名为flag.rar的压缩包</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao8.png" alt=""></p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao9.png" alt=""></p>
+<p>打开压缩包为一个txt文本文档，然而里面并没有flag- -。</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao10.png" alt=""></p>
+<p>根据提示为NTFS流隐写，之后通过writeup了解到需要使用一个ntfstreamseditor工具，这种隐写只有通过winrar解压出来才有效果…</p>
+<p><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao11-1024x452.png" alt=""></p>
+<p>通过工具发现了一个flag.pyc的文件</p>
+<p>将其导出，并使用工具进行反编译得到代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">()</span>:</span></span><br><span class="line">    flag = <span class="string">'*************'</span></span><br><span class="line">    ciphertext = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(flag)):</span><br><span class="line">        s = chr(i ^ ord(flag[i]))</span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            s = ord(s) + <span class="number">10</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            s = ord(s) - <span class="number">10</span></span><br><span class="line">        ciphertext.append(str(s))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ciphertext[::<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">ciphertext = [</span><br><span class="line">    <span class="string">'96'</span>,</span><br><span class="line">    <span class="string">'65'</span>,</span><br><span class="line">    <span class="string">'93'</span>,</span><br><span class="line">    <span class="string">'123'</span>,</span><br><span class="line">    <span class="string">'91'</span>,</span><br><span class="line">    <span class="string">'97'</span>,</span><br><span class="line">    <span class="string">'22'</span>,</span><br><span class="line">    <span class="string">'93'</span>,</span><br><span class="line">    <span class="string">'70'</span>,</span><br><span class="line">    <span class="string">'102'</span>,</span><br><span class="line">    <span class="string">'94'</span>,</span><br><span class="line">    <span class="string">'132'</span>,</span><br><span class="line">    <span class="string">'46'</span>,</span><br><span class="line">    <span class="string">'112'</span>,</span><br><span class="line">    <span class="string">'64'</span>,</span><br><span class="line">    <span class="string">'97'</span>,</span><br><span class="line">    <span class="string">'88'</span>,</span><br><span class="line">    <span class="string">'80'</span>,</span><br><span class="line">    <span class="string">'82'</span>,</span><br><span class="line">    <span class="string">'137'</span>,</span><br><span class="line">    <span class="string">'90'</span>,</span><br><span class="line">    <span class="string">'109'</span>,</span><br><span class="line">    <span class="string">'99'</span>,</span><br><span class="line">    <span class="string">'112'</span>]</span><br></pre></td></tr></table></figure>
+<p>根据加密脚本写出解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">()</span>:</span></span><br><span class="line">    ciphertext = [</span><br><span class="line">    <span class="string">'96'</span>,</span><br><span class="line">    <span class="string">'65'</span>,</span><br><span class="line">    <span class="string">'93'</span>,</span><br><span class="line">    <span class="string">'123'</span>,</span><br><span class="line">    <span class="string">'91'</span>,</span><br><span class="line">    <span class="string">'97'</span>,</span><br><span class="line">    <span class="string">'22'</span>,</span><br><span class="line">    <span class="string">'93'</span>,</span><br><span class="line">    <span class="string">'70'</span>,</span><br><span class="line">    <span class="string">'102'</span>,</span><br><span class="line">    <span class="string">'94'</span>,</span><br><span class="line">    <span class="string">'132'</span>,</span><br><span class="line">    <span class="string">'46'</span>,</span><br><span class="line">    <span class="string">'112'</span>,</span><br><span class="line">    <span class="string">'64'</span>,</span><br><span class="line">    <span class="string">'97'</span>,</span><br><span class="line">    <span class="string">'88'</span>,</span><br><span class="line">    <span class="string">'80'</span>,</span><br><span class="line">    <span class="string">'82'</span>,</span><br><span class="line">    <span class="string">'137'</span>,</span><br><span class="line">    <span class="string">'90'</span>,</span><br><span class="line">    <span class="string">'109'</span>,</span><br><span class="line">    <span class="string">'99'</span>,</span><br><span class="line">    <span class="string">'112'</span>]</span><br><span class="line">    ciphertext.reverse()</span><br><span class="line">    flag = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(ciphertext)):</span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            s = int(ciphertext[i]) - <span class="number">10</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            s = int(ciphertext[i]) + <span class="number">10</span></span><br><span class="line">        s=chr(i^s)</span><br><span class="line">        flag += s</span><br><span class="line">    <span class="keyword">return</span> flag</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    flag = decode()</span><br><span class="line">    <span class="keyword">print</span> flag</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<p>得到flag：<br><img src="http://www.racinedee.com/wp-content/uploads/2018/01/miao12.png" alt=""></p>
+<p>&nbsp;</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/xuexibiji-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rac1ne">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rac1ne">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/13/xuexibiji-1/" itemprop="url">《python绝技 运用python成为顶级黑客》学习笔记（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T17:34:44+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>记录学习python过程中的一些小脚本
+</code></pre><p>zip文件口令破解脚本 用python标准库zipfile解压加密的zip文件 [python]import zipfile zFile = zipfile.ZipFile(“dictionary.zip”) try: zFile.extractall(pwd=”12”) except Exception,e: print e[/python] [python]import zipfile zFile = zipfile.ZipFile(‘dictionary.zip’) passFile = open(‘dictionary.txt’) for line in passFile.readlines(): password = line.strip(‘\n’) try: zFile.extractall(pwd=password) print’[+]Password=’+password+’\n’ exit(0) except Exception,e: print e[/python] 模块化： [python]import zipfile def extractFile(zFile,password): try: zFile.extractall(pwd=password) return password except: return def main(): zFile = zipfile.ZipFile(‘dictionary.zip’) passFile = open(‘dictionary.txt’) for line in passFile.readlines(): password = line.strip(‘\n’) guess = extractFile(zFile,password) if guess: print ‘[+]Password = ‘ +password+’\n’ exit(0) if <strong>name</strong> = ‘<strong>main</strong>‘: main()[/python]</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rac1ne">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rac1ne">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/13/81/" itemprop="url">西普铁人三项测评题writeup</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T12:54:55+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.权限（20分）</p>
+<p>【题目描述】：你是管理员吗？</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/web/root/index.php" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/web/root/index.php</a></p>
+<p>进入题目链接显示一个登录界面</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/1-300x130.png" alt=""></p>
+<p>查看源码在页面最下面发现提示</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/2-300x126.png" alt=""></p>
+<p>根据提示访问password.txt页面，发现是一堆密码</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/3-140x300.png" alt=""></p>
+<p>将密码导入到burpsuit里面进行爆破</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/4-300x159.png" alt=""></p>
+<p>爆破出密码为Nsf0cuS，使用密码登录</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/5-300x135.png" alt=""></p>
+<p>emmmm。。。还没完</p>
+<p>找了半天发现在登录后的cookie值里面有一个名为newpage的值</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/6-300x168.png" alt=""></p>
+<p>Base64解码之后是一个页面地址</p>
+<p>访问base64解码的页面</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/7-300x146.png" alt=""></p>
+<p>猜测是要通过管理员的权限留言获取flag</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/8-300x37.png" alt=""></p>
+<p>在请求头中将cookie里面IsLogin的值改为1 再将level值更改为root发送请求</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/9-300x203.png" alt=""></p>
+<p>显示留言成功界面但没有flag</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/10-300x207.png" alt=""></p>
+<p>查看cookie发现cookie中已经有flag了</p>
+<p>flag{C0ngratulati0n}</p>
+<p>&nbsp;</p>
+<p>2.IOS（10分）</p>
+<p>【题目描述】：无</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/web/IOS/index.php" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/web/IOS/index.php</a></p>
+<p>改请求头的ua，略坑</p>
+<p>如图：</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/ios1-300x143.png" alt=""></p>
+<p>flag{LMvBi8w9$m1TrgK4}</p>
+<p>3.照猫画虎（10分）</p>
+<p>【题目描述】：照猫画虎。</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/web/copy/index.php" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/web/copy/index.php</a></p>
+<p>打开连接跳转到题目网站</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫1-300x58.png" alt=""></p>
+<p>大致意思是第1234567890个访问者会获奖</p>
+<p>用burpsuit抓包分析</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫2-300x204.png" alt=""></p>
+<p>可以看到有一个字段为Visitor的cookie值</p>
+<p>看到末尾两个url编码的%3D 想到base64 直接解码：</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫3-300x161.png" alt=""></p>
+<p>解码得到用：分割的两个字符串</p>
+<p>冒号前面为数字 观察发现就是网站上面显示的</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫4-300x79.png" alt=""></p>
+<p>发现冒号后面的字符串就是2699的md5值，题目cookie的构造方式是base64编码的位数+：+MD5（位数）</p>
+<p>所以我们可以构造1234567890的cookie</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫5-300x162.png" alt=""></p>
+<p>更改cookie之后提交得到flag</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/招呼虎猫6-300x89.png" alt=""></p>
+<p>flag{T4mmL9GhpaKWunPE}</p>
+<p>4.问题就在这（20分）</p>
+<p>【题目描述】：找答案 GPG key: GhairfAvvewvukDetolicDer-OcNayd#</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/ste/gpg/john.tar.gz.gpg" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/ste/gpg/john.tar.gz.gpg</a></p>
+<p>下载下来后是gpg加密的文件，放进kali用命令和题目描述中给的key解密：</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/pgp1-300x83.png" alt=""></p>
+<p>解密后解压打开发现压缩包里面有一个流量包</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/pgp2-300x74.png" alt=""></p>
+<p>用wireshark打开，直接筛选http流量包</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/pgp3-300x84.png" alt=""></p>
+<p>分析流量包发现这是访问一个网站的数据包，先试着导出http对象</p>
+<p>对http对象导出进行分析在logo.png图像中发现flag</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/pgp4-261x300.png" alt=""></p>
+<p>flag{J0hn_th3_Sn1ff3r}</p>
+<p>&nbsp;</p>
+<p>5.你最美（10分）</p>
+<p>【题目描述】：无</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/misc/123/123.exe" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/misc/123/123.exe</a></p>
+<p>打开连接下载了一个可执行文件，打开文件提示不可执行。</p>
+<p>用文本编辑器查看发现是base64编码的图片</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/你最美1-300x146.png" alt=""></p>
+<p>直接进行解码得到二维码</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/你最美2-300x300.png" alt=""></p>
+<p>扫描二维码得到flag</p>
+<p><img src="http://120.79.28.161/wp-content/uploads/2018/01/你最美3-300x136.png" alt=""></p>
+<p>flag{you are beautiful}</p>
+<p>shellcode（30分）</p>
+<p>【题目描述】：无</p>
+<p>【解题链接】：<a href="http://ctf4.shiyanbar.com/re/shellcode/shellcode.txt" target="_blank" rel="noopener">http://ctf4.shiyanbar.com/re/shellcode/shellcode.txt</a></p>
+<p>打开链接发现一串编码，根据题目提示可以知道是shellcode编码</p>
+<p>用python脚本进行shellcode解码得到字符串</p>
+<p>jXRfh-ch/shh/binR4echoZmxhZ3tTSEVsbGNvZGVfSVNfc29fQ29vbH0K|base64-dWS</p>
+<p>base64解码得到flag：flag{SHEllcode_IS_so_Cool}</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/07/bugku-ctf-e7-bb-83-e4-b9-a0-e5-b9-b3-e5-8f-b0-crypto-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rac1ne">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rac1ne">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/07/bugku-ctf-e7-bb-83-e4-b9-a0-e5-b9-b3-e5-8f-b0-crypto-writeup/" itemprop="url">Bugku CTF练习平台 Crypto Writeup</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-07T23:21:03+08:00">
+                2018-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre class="brush:cpp;toolbar:false">#include&lt;stdio.h&gt;
+for()</pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -609,7 +1453,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -620,12 +1464,21 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
